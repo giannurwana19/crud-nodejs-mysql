@@ -1,0 +1,19 @@
+{
+  "name": "crud-nodejs-mysql",
+  "version": "1.0.0",
+  "description": "Membuat CRUD NodeJS express & MySQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index"
+  },
+  "keywords": [],
+  "author": "Gian Nurwana",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.0",
+    "sequelize": "^6.6.5"
+  }
+}
