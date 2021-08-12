@@ -58,6 +58,24 @@ app.post('/users', async (req, res) => {
   }
 });
 
+app.delete('/users/:id', async (req, res) => {
+  const user = await User.findOne({ where: { id: req.params.id } });
+
+  User.destroy({ where: { id: user.id } })
+    .then(() => {
+      res.status(200).json({
+        message: 'User deleted successfully',
+        data: user,
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Internal server error!!!',
+      });
+    });
+});
+
 app.listen(port, () => {
   console.log(`Listening on port http://localhost:${port}`);
 });
