@@ -14,8 +14,28 @@ db.authenticate()
   .then(() => console.log('berhasil terkoneksi'))
   .catch(err => console.log(err));
 
-app.get('/', (req, res) => {
-  res.send('berhasil menulis');
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.findAll();
+
+    res.status(200).json({
+      data: users,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Server Error!' });
+  }
+});
+
+app.get('/users/:id', async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { id: req.params.id } });
+
+    res.status(200).json({ data: user });
+  } catch (error) {
+    console.log(err);
+    res.status(500).json({ message: 'Server Error!' });
+  }
 });
 
 app.post('/users', async (req, res) => {
