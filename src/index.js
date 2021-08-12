@@ -6,7 +6,7 @@ const port = 4000;
 const db = require('./config/db');
 const User = require('./models/User');
 
-app.use(morgan('short'));
+app.use(morgan('common'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -56,6 +56,28 @@ app.post('/users', async (req, res) => {
       message: 'Internal server error!!!',
     });
   }
+});
+
+app.put('/users/:id', async (req, res) => {
+  const user = await User.findOne({ where: { id: req.params.id } });
+
+  const { username, email, password } = req.body;
+
+  User.update({ username, email, password }, { where: { id: user.id } })
+    .then(async () => {
+      const updatedUser = await User.findOne({ where: { id: req.params.id } });
+
+      res.status(200).json({
+        message: 'User Updated successfully',
+        data: updatedUser,
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: 'Internal server error!!!',
+      });
+    });
 });
 
 app.delete('/users/:id', async (req, res) => {
